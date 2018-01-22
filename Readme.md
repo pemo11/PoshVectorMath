@@ -7,7 +7,7 @@ Not that anyone would doubt this but its more about the dealing with two dimensi
 and classes that represents vectors and matrices
 
 A few of the operations that are possible:  
-\>Calculating the length of a vector
-\>Calculating the determinant of a 2x2 matrice
-\>Multiplying two matrices
+\>Calculating the length of a vector  
+\>Calculating the determinant of a 2x2 matrice  
+\>Multiplying two matrices  
 
