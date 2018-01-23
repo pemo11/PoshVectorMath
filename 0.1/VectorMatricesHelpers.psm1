@@ -117,6 +117,6 @@ function MatriceMul
             $MProduct.SetValue($i, $j, $Value)
         }
     }
-    # return the rows of the resulting matrice
-    $MProduct.Rows
+    # return the resulting matrice
+    $MProduct
 }
