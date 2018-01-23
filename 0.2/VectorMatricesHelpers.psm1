@@ -74,6 +74,86 @@ function DetV2
      $M.Vectors[1].Values[0] * $M.Vectors[0].Values[1]
 }
 
+# Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
+function Get-Det3x3Matrice
+{
+    [CmdletBinding()]
+    param([Matrice]$M)
+    # Create a matrice with 5 columns
+    $SarrusMatrice = New-Object -TypeName "Double[,]" -ArgumentList 3,5
+    # Copy the first three columns
+    (0..2).ForEach{
+        $Column = $_
+        (0..2).ForEach{
+            $Row = $_
+            $SarrusMatrice[$Column, $Row] = $M.Values[$Column, $Row]
+        }
+    }
+    # Append column 1 and 2 to the new matrice
+    (0..2).ForEach{$SarrusMatrice[$_,3] = $M.Values[$_,0]}
+    (0..2).ForEach{$SarrusMatrice[$_,4] = $M.Values[$_,1]}
+
+    # Calculate the determinant
+    $Det = 0
+    for($x = 0; $x -le 2; $x++)
+    {
+        $DiagonalProduct = 1
+        for($y=0; $y -le 2; $y++)
+        {
+            $DiagonalProduct *= $SarrusMatrice[$y, ($y+$x)]
+        }
+        $Det += $DiagonalProduct
+    }
+
+    for($x = 4; $x -ge 2; $x--)
+    {
+        $DiagonalProduct = 1
+        for($y=0; $y -le 2; $y++)
+        {
+            $DiagonalProduct *= $SarrusMatrice[$y, ($x-$y)]
+        }
+        $Det -= $DiagonalProduct
+    }
+    # the return value
+    $Det
+}
+
+# Calculates the determinant of a 4x4 matrice with Laplace
+function Get-Laplace4x4Det
+{
+    [CmdletBinding()]
+    param([Matrice]$M)
+    $Det = 0
+    $SignValue = 1
+    # Go through all four vectors
+    for($VectorNr = 0; $VectorNr -le 3; $VectorNr++)
+    {
+        # create a 3x determinant
+        # Initialize an array with vectors
+        $DetVectors = @([Vector]::new(@(0,0,0)), [Vector]::new(@(0,0,0)), [Vector]::new(@(0,0,0)))
+        # Skip first row
+        for($Row = 1; $Row -le 3; $Row++)
+        {
+            $DetVectorNr = 0
+            for($Column = 0; $Column -le 3; $Column++)
+            {
+                # Skip always the current row
+                if ($Column -ne $VectorNr)
+                {
+                    $DetVectors[$DetVectorNr].Values[($Row-1)] = $M.Vectors[$Column].Values[$Row]
+                    $DetVectorNr++
+                }
+            }
+        }
+        $DetMatrice = [Matrice]::new($DetVectors)
+        $DetFactor = $M.Vectors[$VectorNr].Values[0]
+        $Det += $SignValue * $DetFactor * (Get-Det3x3Matrice -M $DetMatrice)
+        $SignValue *= -1
+    }
+    # the return value
+    $Det
+}
+
 # Matrice multiplication
 # Requirements: Number of rows of the first matrice equals the number of columns of the second matrice
 function MatriceMul
