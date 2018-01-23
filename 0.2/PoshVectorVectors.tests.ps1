@@ -4,7 +4,7 @@
 #>
 
 using module .\VectorMatricesClasses.psm1
-using module .\VectorMatricesHelpers.psm1
+using module .\VectorHelpers.psm1
 
 describe "calculating the determinate of 2x2 matrices" {
 
@@ -12,14 +12,14 @@ describe "calculating the determinate of 2x2 matrices" {
         $v1 = v(1,2)
         $v2 = v(3,4)
         $M = m($v1, $v2)
-        detv2($M) | Should be -2
+        Get-Det2x2Matrice($M) | Should be -2
     }
 
     it "calculates the determinant of a 2x2 matrice" {
         $v1 = v(0, 3)
         $v2 = v(2,-1)
         $M = m($v1, $v2)
-        detv2($M) | Should be -6
+        Get-Det2x2Matrice($M) | Should be -6
     }
 }
 
@@ -45,4 +45,14 @@ describe "calculating the vector length" {
         [Int](vector2len($v)) | Should be 3
     }
 
+ }
+
+ describe "calculating the distance between a point a line" {
+
+    it "calculates the distance between a point a line" {
+        $vP = v(5,3)
+        $vA = v(1,1)
+        $vB = v(1,-1)
+        Point2LineDistance(@($vA, $vB, $vP)) | Should be 2
+    }
  }

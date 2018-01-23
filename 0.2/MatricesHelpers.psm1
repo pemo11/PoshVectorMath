@@ -1,6 +1,6 @@
 ﻿<#
  .Synopsis
- A few helper functions for dealing with vectors and matrices
+ A few helper functions for dealing with matrices
 #>
 
 # really helpful otherwise this module won't be able to use the class definitions
@@ -27,47 +27,9 @@ function m([Vector[]]$Vectors)
 }
 
 
-# Length of a vector with 2 components
-function Vector2Len
-{
-    param([Vector]$Vector)
-    # use decimal to avoid rounding errors that makes comparison difficult
-    [Decimal]([Math]::Sqrt([Math]::Pow($Vector.Values[0],2)+[Math]::pow($Vector.Values[1],2)))
-}
-
-# Scalarprocukt of two Vectors with 2 components
-function Vector2Prod
-{
-    param([Vector[]]$Vectors)
-    # use decimal to avoid rounding errors that makes comparison difficult
-    [Decimal]($Vectors[0].Values[0] * $Vectors[1].Values[0] + $Vectors[0].Values[1] * $Vectors[1].Values[1])
-}
-
-# Calculates the angle between two vectors
-function VectorAngle
-{
-    param([Vector[]]$Vectors)
-    # Separates Klammerpaar erforrderlich, damit mit dem Rückgabewert einer Function auch
-    # gerechnet werden kann - lästig, aber nicht anders machbar
-    $v = (vector2prod($Vectors)) / ((vector2len($Vectors[0])) * (vector2len($Vectors[1]))) 
-    [Math]::Acos($v) * 180 / [Math]::PI
-}
-
-# Distance of a point to a line
-function Point2LineDistance
-{
-    param([Vector]$PVector, [Double]$Angle)
-    $cosValue = [Math]::Cos($Angle / 180*[Math]::PI)
-    $aValue = 1
-    $vValue = 1 / $cosValue
-    $bValue = [Math]::sqrt([Math]::Pow($vValue, 2) - 1)
-    $v = v($aValue, $bValue)
-    $m = m($v, $PVector)
-    (detv2($m)) / (Vector2len($v))
-}
 
 # Caculcate the determinant of a 2x2 matrice
-function DetV2
+function Get-Det2x2Matrice
 {
     param([Matrice]$M)
     $M.Vectors[0].Values[0] * $M.Vectors[1].Values[1] -
