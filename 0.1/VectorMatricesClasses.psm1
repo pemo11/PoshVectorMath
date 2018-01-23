@@ -57,7 +57,7 @@ class Matrice
     # Compares two matrices
     static [Bool] Compare([Matrice]$M1, [Matrice]$M2)
     {
-        return MatriceCompare($M1, $M2)
+        return [Matrice]::MatriceCompare($M1, $M2)
     }
 
     # Compares a matrice with the current matrice
