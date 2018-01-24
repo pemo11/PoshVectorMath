@@ -7,7 +7,12 @@
 using module .\VectorMatricesClasses.psm1
 using module .\MatricesHelpers.psm1
 
-# Length of a vector with 2 components
+<#
+ .Synopsis
+ Length of a vector with 2 components
+ .Outputs
+ System.Decimal
+#>
 function Vector2Len
 {
     param([Vector]$Vector)
@@ -16,7 +21,12 @@ function Vector2Len
      [Math]::pow($Vector.Values[1],2)))
 }
 
-# Scalarprocukt of two Vectors with 2 components
+<#
+ .Synopsis
+ Scalarprocukt of two Vectors with 2 components
+ .Outputs
+ Decimal
+#>
 function Vector2Prod
 {
     param([Vector[]]$Vectors)
@@ -24,17 +34,27 @@ function Vector2Prod
     [Decimal]($Vectors[0].Values[0] * $Vectors[1].Values[0] + $Vectors[0].Values[1] * $Vectors[1].Values[1])
 }
 
-# Calculates the angle between two vectors
+<#
+ .Synopsis
+ Calculates the angle between two vectors
+ .Outputs
+ Double
+#>
 function Vector2Angle
 {
     param([Vector[]]$Vectors)
-    # Separates Klammerpaar erforrderlich, damit mit dem Rückgabewert einer Function auch
-    # gerechnet werden kann - lästig, aber nicht anders machbar
+    # An extra pair of parantheses is necessary for being able to use the return value of a function
+    # inside an expression (why, o why, Bruce;)
     $v = (vector2prod($Vectors)) / ((vector2len($Vectors[0])) * (vector2len($Vectors[1]))) 
     [Math]::Acos($v) * 180 / [Math]::PI
 }
 
-# Calculates the norm vector
+<#
+ .Synopsis
+ Calculates the norm vector
+ .Outputs
+ Vector
+#>
 function NormVector2
 {   
     param([Vector]$Vector)
@@ -42,7 +62,14 @@ function NormVector2
     v($vlen * $Vector[0], $vlen * $Vector[1])
 }
 
-# Distance of a point to a line
+<#
+ .Synopsis
+Distance of a point to a line
+.Notes
+Returns a single value
+.Outputs
+System.Decimal
+#>
 function Point2LineDistance
 {
     param([Vector[]]$Vectors)
@@ -57,6 +84,7 @@ function Point2LineDistance
     (Get-Det2x2Matrice(m($vAB, $vAP))) / (Vector2Len($vAB))
 }
 
+<#
 # Distance of a point to a line
 function Point2LineDistance2
 {
@@ -69,8 +97,14 @@ function Point2LineDistance2
     $m = m($v, $PVector)
     (detv2($m)) / (Vector2len($v))
 }
+#>
 
-# Tests if a given point is inside a triangle
+<#
+.Synopsis
+  Tests if a given point is inside a triangle
+.Outputs
+System.Bool
+#>
 function PointInTriangle
 {
     param([Vector[]]$Vectors)
@@ -94,7 +128,12 @@ function PointInTriangle
     return $false
 }
 
-# Calculates the area of a triangle
+<#
+ .Synopsis
+Calculates the area of a triangle
+.Outputs
+Double
+#>
 function AreaTriangle
 {
     param([Vector[]]$Vectors)
@@ -106,7 +145,9 @@ function AreaTriangle
     (Get-Det2x2Matrice(m($vAB, $vAC))) / 2
 }
 
-# Calculates the junction between two lines
+<#
+ .Synopsis
+  Calculates the junction between two lines
 function LineJunction
 {
     param([Matrice[]]$LineMatrices)
@@ -121,3 +162,5 @@ function LineJunction
 
 
 }
+
+#>

@@ -8,7 +8,9 @@ using module .\VectorMatricesClasses.psm1
 
 <#
  .Synopsis
- Creates a vector
+ Creates a vector based on dobule values
+ .Outputs
+ Vector
 #>
 function v([Double[]]$Values)
 {
@@ -19,6 +21,8 @@ function v([Double[]]$Values)
 <#
  .Synopsis
  Creates a matrice with Vectors
+ .Outputs
+ Matrice
 #>
 function m([Vector[]]$Vectors)
 {
@@ -27,8 +31,14 @@ function m([Vector[]]$Vectors)
 }
 
 
-
-# Caculcate the determinant of a 2x2 matrice
+<#
+ .Synopsis
+ Caculcate the determinant of a 2x2 matrice
+ .Notes
+ Returns a single double value
+ .Outputs
+ System.Double
+#>
 function Get-Det2x2Matrice
 {
     param([Matrice]$M)
@@ -36,7 +46,14 @@ function Get-Det2x2Matrice
      $M.Vectors[1].Values[0] * $M.Vectors[0].Values[1]
 }
 
-# Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
+<#
+ .Synopsis
+ Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
+ .Notes
+ Returns a single double value
+ .Outputs
+ System.Double
+#>
 function Get-Det3x3Matrice
 {
     [CmdletBinding()]
@@ -56,7 +73,7 @@ function Get-Det3x3Matrice
     (0..2).ForEach{$SarrusMatrice[$_,4] = $M.Values[$_,1]}
 
     # Calculate the determinant
-    $Det = 0
+    [Double]$Det = 0
     for($x = 0; $x -le 2; $x++)
     {
         $DiagonalProduct = 1
@@ -80,7 +97,14 @@ function Get-Det3x3Matrice
     $Det
 }
 
-# Calculates the determinant of a 4x4 matrice with Laplace
+<#
+ .Synopsis
+Calculates the determinant of a 4x4 matrice with Laplace replacement
+.Notes
+Returns a single double value
+.Outputs
+System.Double
+#>
 function Get-Laplace4x4Det
 {
     [CmdletBinding()]
@@ -116,8 +140,15 @@ function Get-Laplace4x4Det
     $Det
 }
 
-# Matrice multiplication
-# Requirements: Number of rows of the first matrice equals the number of columns of the second matrice
+<#
+ .Synopsis
+  Matrice multiplication with two matrices
+ .Notes
+  Requirements: Number of rows of the first matrice equals the number of columns of the second matrice
+  returns the result matrice
+  .Outputs
+  Matrice
+#>
 function MatriceMul
 {
     [CmdletBinding()]
