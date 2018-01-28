@@ -10,10 +10,11 @@ describe "more specialized tests with vectors" {
 
     it "calculates the distance between a point and a line" {
 
-        $v
-        param([Vector]$PVector, [Double]$Angle)
-
-        Point2LineDistance2
+        $vA = v(1,1)
+        $vB = v(3,3)
+        $vP = v(2,3)
+        $pD = Point2LineDistance($vA, $vB, $vP)
+        
     }
 
 }

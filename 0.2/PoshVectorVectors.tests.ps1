@@ -31,6 +31,12 @@ describe "calculating the vector product" {
         vector2prod($v1, $v2)  | Should be 6
     }
 
+    it "calculates the product of two vectors" {
+        $v1 = v(1,1)
+        $v2 = v(-1,1)
+        vector2prod($v1, $v2)  | Should be 0
+    }
+
 }
 
 describe "calculating the vector length" {

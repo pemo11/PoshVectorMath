@@ -30,6 +30,23 @@ function m([Vector[]]$Vectors)
     New-Object -TypeName Matrice -ArgumentList (,$Vectors)
 }
 
+<#
+ .Synopsis
+ Helper functions for outputting the values of a matrice
+#>
+function Out-Matrice
+{
+    $OutVal = ""
+    for($Row=0;$Row -lt $this.Matrice.GetLength(0);$Row++)
+    {
+        for($Column=0;$Column -lt $this.Matrice.GetLength(1);$Column++)
+        {
+            $OutVal += ("{0,8:n2}" -f $this.Matrice[$Row, $Column])
+        }
+        $OutVal
+    }
+    return $OutVal
+}
 
 <#
  .Synopsis
@@ -99,6 +116,55 @@ function Get-Det3x3Matrice
 
 <#
  .Synopsis
+ Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
+ .Notes
+ Same kind of function as Get-Det3x3Matrice but uses double values as input values
+ .Outputs
+ System.Double
+#>
+function Get-Det3x3
+{
+    [CmdletBinding()]
+    param([Double[,]]$M)
+    $SarrusM = New-Object -TypeName "Double[,]" -ArgumentList 3,5
+    for($Row=0; $Row -lt 3;$Row++)
+    {
+        for($Column=0;$Column -lt 3;$Column++)
+        {
+            $SarrusM[$Row, $Column] = $M[$Row, $Column]
+        }
+    }
+    for($Row=0;$Row -lt 3;$Row++)
+    {
+        $SarrusM[$Row,3] = $M[$Row,0]
+        $SarrusM[$Row,4] = $M[$Row,1]
+    }
+
+    [Double]$Det = 0
+    for($Column = 0;$Column -lt 3;$Column++)
+    {
+        $DiagonalProcukt = 1
+        for($Row=0;$Row -lt 3;$Row++)
+        {
+            $DiagonalProcukt *= $SarrusM[$Row, ($Column+$Row)]
+        }
+        $Det += $DiagonalProduct
+    }
+
+    for($Row=4;$Row -ge 2;$Row--)
+    {
+        $DiagonalProduct = 1
+        for($Row=0; $Row -lt 3;$Row++)
+        {
+            $DiagonalProduct *= $SarrusM[$Row, ($Column-$Row)]
+        }
+        $Det -= $DiagonalProdct
+    }
+    $Det
+}
+
+<#
+ .Synopsis
 Calculates the determinant of a 4x4 matrice with Laplace replacement
 .Notes
 Returns a single double value
@@ -149,7 +215,7 @@ function Get-Laplace4x4Det
   .Outputs
   Matrice
 #>
-function MatriceMul
+function Mul-Matrice
 {
     [CmdletBinding()]
     param([Matrice[]]$Matrices)
@@ -193,3 +259,79 @@ function MatriceMul
     # return the resulting matrice
     $MProduct
 }
+
+
+<#
+.SYNOPSIS
+Calculates the invert of a 3x3 matrice
+
+.DESCRIPTION
+Uses a combination of adjunct and the determinant of a matrice
+m = 1/det(m) * adjunct(m)
+
+.PARAMETER MatriceValue
+The values of the 3x3 matrice as an two dimensional array
+
+.EXAMPLE
+Matrix-Invert -MatriceValues $M
+
+.NOTES
+This function is not using the matrice class due to simplicity
+#>
+function Invert-Matrice
+{
+    [CmdletBinding()]
+    param([Double[]]$MOriginal)
+    # Create extended Matrice 
+    $MExt = New-Object -TypeName "Double[,]" -ArgumentList 5,5
+
+    # Copy all values from MOriginal to MExt
+    for($Row=0;$Row -lt 3;$Row++)
+    {
+        for($Column=0;$Column -lt 3;$Column++)
+        {
+            $MExt[$Row, $Column] = $MOriginal[$Row, $Column]
+        }
+        # Append column 4 and 5
+        $MExt[$Row, 3] = $MOriginal[$Row, 0]
+        $MExt[$Row, 4] = $MOriginal[$Row, 1]
+    }
+
+    # Append the first two rows at the bottom
+    for($Row=3;$Row -lt 5;$Row++)
+    {
+        for($Column=0;$Column -lt 5;$Column++)
+        {
+           $MExt[$Row, $Column] = $MExt[($Row-3), $Column]
+        }
+    }
+
+    # Create another temporary matrice
+    $MTemp = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+
+    for($Row=1; $Row -lt 4;$Row++)
+    {
+        for($Column=1; $Column -lt 4;$Column++)
+        {
+            # 4 Werte zusammenfassen
+            $Value = $MExt[$Row, $Column] * $MExt[($Row + 1), ($Column + 1)]
+            $Value -= $MExt[$Row, ($Column+1)] * $MExt[($Row + 1), $Column]
+            $MTemp[($Row-1), ($Column-1)] = $Value
+    }
+    # Step 3: Determinant following Sarrus rule
+    $Det = Get-Det3x3 -M $MOriginal
+
+    # Step 4: Apply the formula for each value of the adjunct matrice
+    $MInvert = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+    for ($Row = 0; $Row -lt 3; $Row++)
+    {
+        for ($Column = 0;$Column -lt 3;$Column++)
+        {
+            $MInvert[$Row, $Column] = (1 / $Det) * $MTemp[$Row, $Column]  
+        }
+    }
+}
+}
+
+# Export only certain functions
+Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det

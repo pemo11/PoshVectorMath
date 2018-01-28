@@ -5,7 +5,7 @@
 
 # really helpful otherwise this module won't be able to use the class definitions
 using module .\VectorMatricesClasses.psm1
-using module .\MatricesHelpers.psm1
+using module .\MatriceHelpers.psm1
 
 <#
  .Synopsis

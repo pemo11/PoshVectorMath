@@ -19,6 +19,22 @@ class Vector
         $this.Values = $Values
     }
 
+    # Outputs the vector values without formating
+    [string]ToString()
+    {
+        $OutVal = ""
+        $this.Values.ForEach{$OutVal += ("{0,8}" -f $_)}
+        return  $OutVal
+    }
+
+    # Outputs the vector values with formating
+    [string]ToString($format)
+    {
+        $OutVal = ""
+        $this.Values.ForEach{$OutVal += ("{0,8:n2}" -f $_)}
+        return  $OutVal
+    }
+
 }
 
 # Defines a matrice with n vectors that defines the columns of the matrice
@@ -94,6 +110,21 @@ class Matrice
     {
         $this.Vectors[$Column].Values[$Row] = $Value
         $this.Rows[$Row].Values[$Column] = $Value
+    }
+
+    # Outputs the matrice with rows and columns
+    [string]ToString()
+    {
+        $OutVal = ""
+        for($Row=0;$Row -lt $this.Matrice.GetLength(0);$Row++)
+        {
+            for($Column=0;$Column -lt $this.Matrice.GetLength(1);$Column++)
+            {
+                $OutVal += ("{0,8:n2}" -f $this.Matrice[$Row, $Column])
+            }
+            $OutVal
+        }
+        return $OutVal
     }
 }
 

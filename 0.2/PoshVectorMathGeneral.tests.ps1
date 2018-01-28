@@ -4,7 +4,7 @@
 #>
 
 using module .\VectorMatricesClasses.psm1
-# using module .\MatricesHelpers.psm1
+using module .\MatriceHelpers.psm1
 using module .\VectorHelpers.psm1
 
 describe "tests with triangles" {

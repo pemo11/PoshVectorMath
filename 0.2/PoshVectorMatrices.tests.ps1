@@ -4,7 +4,8 @@
 #>
 
 using module .\VectorMatricesClasses.psm1
-using module .\VectorMatricesHelpers.psm1
+using module .\VectorHelpers.psm1
+using module .\MatriceHelpers.psm1
 
 describe "calculating the product of two matrices" {
 
@@ -64,4 +65,46 @@ describe "calculating the determinant of 4x4 matrices" {
         Get-Laplace4x4Det $M | Should be $ResultValue
     }
         
+}
+
+describe "matrices inversion tests" {
+
+    it "inverts a 3x3 matrice" {
+        $M1 = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+        $M1[0,0] = 1
+        $M1[0,1] = 2
+        $M1[0,2] = 1
+
+        $M1[1,0] = 1
+        $M1[1,1] = 1
+        $M1[1,2] = 3
+
+        $M1[2,0] = 1
+        $M1[2,1] = 4
+        $M1[2,2] = 2
+
+        $MInvert = Invert-Matrice $M1
+        $ResultValue = -0,2
+        Get-Det3x3 $MInvert | Should be $ResultValue
+    }
+
+    it "inverts a 3x3 matrice" {
+        $M1 = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+        $M1[0,0] = 2
+        $M1[0,1] = 4
+        $M1[0,2] = 7
+
+        $M1[1,0] = 2
+        $M1[1,1] = 5
+        $M1[1,2] = 8
+
+        $M1[2,0] = 3
+        $M1[2,1] = 6
+        $M1[2,2] = 9
+
+        $MInvert = Invert-Matrice $M1
+        $ResultValue = -0,333333333333333
+        Get-Det3x3 $MInvert | Should be $ResultValue
+
+    }
 }
