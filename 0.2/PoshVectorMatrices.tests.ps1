@@ -19,7 +19,7 @@ describe "calculating the product of two matrices" {
         $v3 = v(2,0)
         $M2 = m($v1,$v2,$v3)
         
-        $M = MatriceMul($M1, $M2)
+        $M = Mul-Matrice($M1, $M2)
 
         $v1 = v(5,4,5)
         $v2 = v(6,3,6)
@@ -64,7 +64,6 @@ describe "calculating the determinant of 4x4 matrices" {
         $ResultValue = 0
         Get-Laplace4x4Det $M | Should be $ResultValue
     }
-        
 }
 
 describe "matrices inversion tests" {
@@ -83,7 +82,7 @@ describe "matrices inversion tests" {
         $M1[2,1] = 4
         $M1[2,2] = 2
 
-        $MInvert = Invert-Matrice $M1
+        $MInvert = Invert-Matrice -MOriginal $M1
         $ResultValue = -0,2
         Get-Det3x3 $MInvert | Should be $ResultValue
     }

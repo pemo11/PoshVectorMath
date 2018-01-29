@@ -33,6 +33,8 @@ function m([Vector[]]$Vectors)
 <#
  .Synopsis
  Helper functions for outputting the values of a matrice
+ .Notes
+ The matrice class has an overwritten ToString() method
 #>
 function Out-Matrice
 {
@@ -65,7 +67,7 @@ function Get-Det2x2Matrice
 
 <#
  .Synopsis
- Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
+ Calculates the determinant of a 3x3 matrice following famous Sarrus rule
  .Notes
  Returns a single double value
  .Outputs
@@ -143,22 +145,22 @@ function Get-Det3x3
     [Double]$Det = 0
     for($Column = 0;$Column -lt 3;$Column++)
     {
-        $DiagonalProcukt = 1
+        $DiagonalProduct = 1
         for($Row=0;$Row -lt 3;$Row++)
         {
-            $DiagonalProcukt *= $SarrusM[$Row, ($Column+$Row)]
+            $DiagonalProduct *= $SarrusM[$Row, ($Column+$Row)]
         }
         $Det += $DiagonalProduct
     }
 
-    for($Row=4;$Row -ge 2;$Row--)
+    for($Column=4;$Column -ge 2;$Column--)
     {
         $DiagonalProduct = 1
         for($Row=0; $Row -lt 3;$Row++)
         {
             $DiagonalProduct *= $SarrusM[$Row, ($Column-$Row)]
         }
-        $Det -= $DiagonalProdct
+        $Det -= $DiagonalProduct
     }
     $Det
 }
@@ -266,11 +268,11 @@ function Mul-Matrice
 Calculates the invert of a 3x3 matrice
 
 .DESCRIPTION
-Uses a combination of adjunct and the determinant of a matrice
-m = 1/det(m) * adjunct(m)
+Uses a combination of the adjunct and the determinant of a matrice
+mInv = 1/det(m) * adjunct(m)
 
 .PARAMETER MatriceValue
-The values of the 3x3 matrice as an two dimensional array
+The values of the 3x3 matrice as a two dimensional array
 
 .EXAMPLE
 Matrix-Invert -MatriceValues $M
@@ -281,7 +283,7 @@ This function is not using the matrice class due to simplicity
 function Invert-Matrice
 {
     [CmdletBinding()]
-    param([Double[]]$MOriginal)
+    param([Double[,]]$MOriginal)
     # Create extended Matrice 
     $MExt = New-Object -TypeName "Double[,]" -ArgumentList 5,5
 
@@ -313,11 +315,13 @@ function Invert-Matrice
     {
         for($Column=1; $Column -lt 4;$Column++)
         {
-            # 4 Werte zusammenfassen
+            # Matrixprodukt mit den vier Werten bilden
             $Value = $MExt[$Row, $Column] * $MExt[($Row + 1), ($Column + 1)]
             $Value -= $MExt[$Row, ($Column+1)] * $MExt[($Row + 1), $Column]
             $MTemp[($Row-1), ($Column-1)] = $Value
+        }
     }
+
     # Step 3: Determinant following Sarrus rule
     $Det = Get-Det3x3 -M $MOriginal
 
@@ -330,8 +334,8 @@ function Invert-Matrice
             $MInvert[$Row, $Column] = (1 / $Det) * $MTemp[$Row, $Column]  
         }
     }
-}
+    $MInvert
 }
 
 # Export only certain functions
-Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det
+Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det, v, m
