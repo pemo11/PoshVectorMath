@@ -19,7 +19,7 @@ describe "calculating the product of two matrices" {
         $v3 = v(2,0)
         $M2 = m($v1,$v2,$v3)
         
-        $M = MatriceMul($M1, $M2)
+        $M = Mul-Matrice($M1, $M2)
 
         $v1 = v(5,4,5)
         $v2 = v(6,3,6)

@@ -164,3 +164,5 @@ function LineJunction
 }
 
 #>
+
+Export-ModuleMember -Function * -Alias *

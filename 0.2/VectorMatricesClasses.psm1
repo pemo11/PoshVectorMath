@@ -128,3 +128,4 @@ class Matrice
     }
 }
 
+Export-ModuleMember -Function * -Alias *

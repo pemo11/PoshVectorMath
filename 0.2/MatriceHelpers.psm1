@@ -281,11 +281,11 @@ This function is not using the matrice class due to simplicity
 function Invert-Matrice
 {
     [CmdletBinding()]
-    param([Double[]]$MOriginal)
+    param([Double[,]]$MOriginal)
     # Create extended Matrice 
     $MExt = New-Object -TypeName "Double[,]" -ArgumentList 5,5
 
-    # Copy all values from MOriginal to MExt
+    # Step 1: Copy all values from MOriginal to MExt
     for($Row=0;$Row -lt 3;$Row++)
     {
         for($Column=0;$Column -lt 3;$Column++)
@@ -297,7 +297,7 @@ function Invert-Matrice
         $MExt[$Row, 4] = $MOriginal[$Row, 1]
     }
 
-    # Append the first two rows at the bottom
+    # Step 2: Append the first two rows at the bottom
     for($Row=3;$Row -lt 5;$Row++)
     {
         for($Column=0;$Column -lt 5;$Column++)
@@ -306,7 +306,7 @@ function Invert-Matrice
         }
     }
 
-    # Create another temporary matrice
+    # Step 3: Create another temporary matrice
     $MTemp = New-Object -TypeName "Double[,]" -ArgumentList 3,3
 
     for($Row=1; $Row -lt 4;$Row++)
@@ -317,11 +317,13 @@ function Invert-Matrice
             $Value = $MExt[$Row, $Column] * $MExt[($Row + 1), ($Column + 1)]
             $Value -= $MExt[$Row, ($Column+1)] * $MExt[($Row + 1), $Column]
             $MTemp[($Row-1), ($Column-1)] = $Value
+        }
     }
-    # Step 3: Determinant following Sarrus rule
+
+    # Step 4: Get the Determinant following Sarrus rule
     $Det = Get-Det3x3 -M $MOriginal
 
-    # Step 4: Apply the formula for each value of the adjunct matrice
+    # Step 5: Apply the formula for each value of the adjunct matrice
     $MInvert = New-Object -TypeName "Double[,]" -ArgumentList 3,3
     for ($Row = 0; $Row -lt 3; $Row++)
     {
@@ -330,8 +332,8 @@ function Invert-Matrice
             $MInvert[$Row, $Column] = (1 / $Det) * $MTemp[$Row, $Column]  
         }
     }
-}
+    $MInvert
 }
 
 # Export only certain functions
-Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det
+Export-ModuleMember -Function v, m, Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Det3x3Matrice, Get-Laplace4x4Det
