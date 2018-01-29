@@ -151,7 +151,7 @@ function Get-Det3x3
         $Det += $DiagonalProduct
     }
 
-    for($Row=4;$Row -ge 2;$Row--)
+    for($Column=4;$Column-ge 2;$Column--)
     {
         $DiagonalProduct = 1
         for($Row=0; $Row -lt 3;$Row++)
@@ -160,7 +160,7 @@ function Get-Det3x3
         }
         $Det -= $DiagonalProdct
     }
-    $Det
+    return $Det
 }
 
 <#
