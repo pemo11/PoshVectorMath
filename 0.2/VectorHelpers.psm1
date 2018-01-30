@@ -81,7 +81,7 @@ function Point2LineDistance
     # $vLenAB = Vector2Len($vAB)
     # $vLenAP = Vector2Len($vAP)
     # Can't believe I have to use all these parantheses!
-    (Get-Det2x2Matrice(m($vAB, $vAP))) / (Vector2Len($vAB))
+    return ((Get-Det2x2Matrice(m($vAB, $vAP))) / (Vector2Len($vAB)))
 }
 
 <#

@@ -12,7 +12,7 @@ using module .\VectorMatricesClasses.psm1
  .Outputs
  Vector
 #>
-function v([Decimal]$Values)
+function v([Decimal[]]$Values)
 {
     # , operator is necessary otherwise each value of the array will be used
     New-Object -TypeName Vector -ArgumentList (,$Values)
