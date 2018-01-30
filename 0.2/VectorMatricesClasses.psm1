@@ -11,10 +11,10 @@ Import-LocalizedData -BindingVariable Msg -FileName PoshVectorMathMessages.psd1
 # Defines a vector with n values
 class Vector
 {
-    [Double[]]$Values
+    [Decimal[]]$Values
 
     # Constructor
-    Vector([Double[]]$Values)
+    Vector([Decimal[]]$Values)
     {
         $this.Values = $Values
     }
@@ -86,7 +86,7 @@ class Matrice
     Matrice([Vector[]]$Vectors)
     {
         $this.Vectors = $Vectors
-        $this.Values = New-Object -TypeName "Double[,]" -ArgumentList $Vectors.Count, $Vectors[0].Values.Count
+        $this.Values = New-Object -TypeName "Decimal[,]" -ArgumentList $Vectors.Count, $Vectors[0].Values.Count
         for($i=0;$i -lt $Vectors.Count;$i++)
         {
             for($j=0;$j -lt $Vectors[$i].Values.Count;$j++)

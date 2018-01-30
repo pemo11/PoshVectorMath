@@ -12,7 +12,7 @@ using module .\VectorMatricesClasses.psm1
  .Outputs
  Vector
 #>
-function v([Double[]]$Values)
+function v([Decimal]$Values)
 {
     # , operator is necessary otherwise each value of the array will be used
     New-Object -TypeName Vector -ArgumentList (,$Values)
@@ -56,29 +56,29 @@ function Out-Matrice
  .Notes
  Returns a single double value
  .Outputs
- System.Double
+ System.Decimal
 #>
 function Get-Det2x2Matrice
 {
     param([Matrice]$M)
-    $M.Vectors[0].Values[0] * $M.Vectors[1].Values[1] -
-     $M.Vectors[1].Values[0] * $M.Vectors[0].Values[1]
+    [Decimal]($M.Vectors[0].Values[0] * $M.Vectors[1].Values[1] -
+     $M.Vectors[1].Values[0] * $M.Vectors[0].Values[1])
 }
 
 <#
  .Synopsis
  Calculates the determinant of a 3x3 matrice following famous Sarrus rule
  .Notes
- Returns a single double value
+ Returns a single decimal value
  .Outputs
- System.Double
+ System.Decimal
 #>
 function Get-Det3x3Matrice
 {
     [CmdletBinding()]
     param([Matrice]$M)
     # Create a matrice with 5 columns
-    $SarrusMatrice = New-Object -TypeName "Double[,]" -ArgumentList 3,5
+    $SarrusMatrice = New-Object -TypeName "Decimal[,]" -ArgumentList 3,5
     # Copy the first three columns
     (0..2).ForEach{
         $Column = $_
@@ -92,7 +92,7 @@ function Get-Det3x3Matrice
     (0..2).ForEach{$SarrusMatrice[$_,4] = $M.Values[$_,1]}
 
     # Calculate the determinant
-    [Double]$Det = 0
+    [Decimal]$Det = 0
     for($x = 0; $x -le 2; $x++)
     {
         $DiagonalProduct = 1
@@ -113,23 +113,23 @@ function Get-Det3x3Matrice
         $Det -= $DiagonalProduct
     }
     # the return value
-    $Det
+    return $Det
 }
 
 <#
  .Synopsis
  Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
  .Notes
- Same kind of function as Get-Det3x3Matrice but uses double values as input values
+ Same kind of function as Get-Det3x3Matrice but uses Decimal values as input values
  .Outputs
- System.Double
+ System.Decimal
 #>
 function Get-Det3x3
 {
     [CmdletBinding()]
-    param([Double[,]]$M)
-    $SarrusM = New-Object -TypeName "Double[,]" -ArgumentList 3,5
-    for($Row=0; $Row -lt 3;$Row++)
+    param([Decimal[,]]$M)
+    $SarrusM = New-Object -TypeName "Decimal[,]" -ArgumentList 3,5
+    for($Row=0;$Row -lt 3;$Row++)
     {
         for($Column=0;$Column -lt 3;$Column++)
         {
@@ -142,7 +142,7 @@ function Get-Det3x3
         $SarrusM[$Row,4] = $M[$Row,1]
     }
 
-    [Double]$Det = 0
+    [Decimal]$Det = 0
     for($Column = 0;$Column -lt 3;$Column++)
     {
         $DiagonalProduct = 1
@@ -156,7 +156,7 @@ function Get-Det3x3
     for($Column=4;$Column -ge 2;$Column--)
     {
         $DiagonalProduct = 1
-        for($Row=0; $Row -lt 3;$Row++)
+        for($Row=0;$Row -lt 3;$Row++)
         {
             $DiagonalProduct *= $SarrusM[$Row, ($Column-$Row)]
         }
@@ -169,9 +169,9 @@ function Get-Det3x3
  .Synopsis
 Calculates the determinant of a 4x4 matrice with Laplace replacement
 .Notes
-Returns a single double value
+Returns a single Decimal value
 .Outputs
-System.Double
+System.Decimal
 #>
 function Get-Laplace4x4Det
 {
@@ -205,7 +205,7 @@ function Get-Laplace4x4Det
         $SignValue *= -1
     }
     # the return value
-    $Det
+    return $Det
 }
 
 <#
@@ -231,7 +231,7 @@ function Mul-Matrice
     }
     # Create a new matrice for the result - it contains the row count of Matrice 1 and the column count of Matrice 2
     # 1. Create a vector that contains the number of values like the number of rows of Matrice 1
-    $vValues = New-Object -TypeName "Double[]" -ArgumentList $M1.Rows.Count
+    $vValues = New-Object -TypeName "Decimal[]" -ArgumentList $M1.Rows.Count
     # Initialize vector with 0 values
     $v = v($vValues)
     # Create an array with Vectors
@@ -259,7 +259,7 @@ function Mul-Matrice
         }
     }
     # return the resulting matrice
-    $MProduct
+    return $MProduct
 }
 
 
@@ -283,9 +283,9 @@ This function is not using the matrice class due to simplicity
 function Invert-Matrice
 {
     [CmdletBinding()]
-    param([Double[,]]$MOriginal)
+    param([Decimal[,]]$MOriginal)
     # Create extended Matrice 
-    $MExt = New-Object -TypeName "Double[,]" -ArgumentList 5,5
+    $MExt = New-Object -TypeName "Decimal[,]" -ArgumentList 5,5
 
     # Step 1: Copy all values from MOriginal to MExt
     for($Row=0;$Row -lt 3;$Row++)
@@ -309,7 +309,7 @@ function Invert-Matrice
     }
 
     # Step 3: Create another temporary matrice
-    $MTemp = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+    $MTemp = New-Object -TypeName "Decimal[,]" -ArgumentList 3,3
 
     for($Row=1; $Row -lt 4;$Row++)
     {
@@ -326,7 +326,7 @@ function Invert-Matrice
     $Det = Get-Det3x3 -M $MOriginal
 
     # Step 5: Apply the formula for each value of the adjunct matrice
-    $MInvert = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+    $MInvert = New-Object -TypeName "Decimal[,]" -ArgumentList 3,3
     for ($Row = 0; $Row -lt 3; $Row++)
     {
         for ($Column = 0;$Column -lt 3;$Column++)
@@ -338,5 +338,5 @@ function Invert-Matrice
     return ,$MInvert
 }
 
-# Export only certain functions
+# Export only certa0in functions
 Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det, v, m

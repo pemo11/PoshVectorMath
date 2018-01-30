@@ -68,8 +68,8 @@ describe "calculating the determinant of 4x4 matrices" {
 
 describe "matrices inversion tests" {
 
-    it "inverts a 3x3 matrice" {
-        $M1 = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+    it "inverts a 3x3 matrice with det=-0.2" {
+        $M1 = New-Object -TypeName "Decimal[,]" -ArgumentList 3,3
         $M1[0,0] = 1
         $M1[0,1] = 2
         $M1[0,2] = 1
@@ -83,12 +83,12 @@ describe "matrices inversion tests" {
         $M1[2,2] = 2
 
         $MInvert = Invert-Matrice -MOriginal $M1
-        $ResultValue = "-0.2"
+        [Decimal]$ResultValue = -0.2
         Get-Det3x3 $MInvert | Should be $ResultValue
     }
 
     it "inverts a 3x3 matrice" {
-        $M1 = New-Object -TypeName "Double[,]" -ArgumentList 3,3
+        $M1 = New-Object -TypeName "Decimal[,]" -ArgumentList 3,3
         $M1[0,0] = 2
         $M1[0,1] = 4
         $M1[0,2] = 7
@@ -102,8 +102,32 @@ describe "matrices inversion tests" {
         $M1[2,2] = 9
 
         $MInvert = Invert-Matrice $M1
-        $ResultValue = "-0.333333333333333"
-        Get-Det3x3 $MInvert | Should be $ResultValue
-
+        # Rounding errors if double type
+        # $ResultValue =-(1 / 3)
+        $ResultValue = -0.3
+        [Math]::Round((Get-Det3x3 $MInvert),1) | Should be $ResultValue
     }
+
+    it "inverts a 3x3 matrice" {
+        $M1 = New-Object -TypeName "Decimal[,]" -ArgumentList 3,3
+    
+        $M1[0,0] = 3
+        $M1[0,1] = 0
+        $M1[0,2] = -1
+
+        $M1[1,0] = -1
+        $M1[1,1] = -4
+        $M1[1,2] = -5
+
+        $M1[2,0] = -1
+        $M1[2,1] = 0
+        $M1[2,2] = 0
+
+        $MInvert = Invert-Matrice $M1
+        $ResultValue = 0.25
+        Get-Det3x3 $MInvert | Should be $ResultValue
+    }
+
+  
+   
 }

@@ -14,7 +14,7 @@ describe "tests with triangles" {
         $vB = v(6,0)
         $vC = v(3,6)
         $vP = v(5,4)
-        PointInTriangle($vA, $vB, $vC, $vP) | should be $false 
+        PointInTriangle($vA, $vB, $vC, $vP) | Should be $false 
     }
 
     it "tests the area of a triangle" {
