@@ -83,7 +83,7 @@ describe "matrices inversion tests" {
         $M1[2,2] = 2
 
         $MInvert = Invert-Matrice -MOriginal $M1
-        $ResultValue = -0,2
+        $ResultValue = "-0.2"
         Get-Det3x3 $MInvert | Should be $ResultValue
     }
 
@@ -102,7 +102,7 @@ describe "matrices inversion tests" {
         $M1[2,2] = 9
 
         $MInvert = Invert-Matrice $M1
-        $ResultValue = -0,333333333333333
+        $ResultValue = "-0.333333333333333"
         Get-Det3x3 $MInvert | Should be $ResultValue
 
     }

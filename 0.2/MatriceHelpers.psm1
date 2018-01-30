@@ -334,7 +334,8 @@ function Invert-Matrice
             $MInvert[$Row, $Column] = (1 / $Det) * $MTemp[$Row, $Column]  
         }
     }
-    return [Double[,]]$MInvert
+    # Important: return a 2d array not all the values as a 1d array
+    return ,$MInvert
 }
 
 # Export only certain functions
