@@ -61,7 +61,8 @@ function Out-Matrice
 function Get-Det2x2Matrice
 {
     param([Matrice]$M)
-    [Decimal]($M.Vectors[0].Values[0] * $M.Vectors[1].Values[1] -
+    # return type is Decimal
+    return ($M.Vectors[0].Values[0] * $M.Vectors[1].Values[1] -
      $M.Vectors[1].Values[0] * $M.Vectors[0].Values[1])
 }
 
@@ -77,7 +78,7 @@ function Get-Det3x3Matrice
 {
     [CmdletBinding()]
     param([Matrice]$M)
-    # Create a matrice with 5 columns
+    # Create a matrice with 5 columns as a 2 dimensional array
     $SarrusMatrice = New-Object -TypeName "Decimal[,]" -ArgumentList 3,5
     # Copy the first three columns
     (0..2).ForEach{
@@ -112,7 +113,7 @@ function Get-Det3x3Matrice
         }
         $Det -= $DiagonalProduct
     }
-    # the return value
+    # the decimal return value
     return $Det
 }
 
@@ -121,6 +122,8 @@ function Get-Det3x3Matrice
  Calculates the determinant of a 3x3 matrice following famous Sarrus'rule
  .Notes
  Same kind of function as Get-Det3x3Matrice but uses Decimal values as input values
+ .Input
+ [Decimal[,]]
  .Outputs
  System.Decimal
 #>
@@ -339,4 +342,4 @@ function Invert-Matrice
 }
 
 # Export only certa0in functions
-Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Laplace4x4Det, v, m
+Export-ModuleMember -Function Get-Det3x3, Invert-Matrice, Mul-Matrice, Get-Det2x2Matrice, Get-Det3x3Matrice, Get-Laplace4x4Det, v, m

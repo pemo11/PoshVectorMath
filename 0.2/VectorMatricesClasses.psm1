@@ -42,7 +42,7 @@ class Matrice
 {
     [Vector[]]$Vectors
     # 2D-Index, erster Index = Spalte, zweiter Index = Zeile
-    [Double[,]]$Values
+    [Decimal[,]]$Values
     [Vector[]]$Rows
 
     # Compare two Matrices
@@ -82,10 +82,11 @@ class Matrice
         return MatriceCompare($this, $M)
     }
 
-    # Construktor - initialize the matrice with an array of vectors
+    # Constrcktor - initialize the matrice with an array of vectors
     Matrice([Vector[]]$Vectors)
     {
         $this.Vectors = $Vectors
+        # TODO: Hier tritt ein Fehler auf!
         $this.Values = New-Object -TypeName "Decimal[,]" -ArgumentList $Vectors.Count, $Vectors[0].Values.Count
         for($i=0;$i -lt $Vectors.Count;$i++)
         {

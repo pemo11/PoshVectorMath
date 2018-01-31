@@ -25,7 +25,7 @@ function Vector2Len
  .Synopsis
  Scalarprocukt of two Vectors with 2 components
  .Outputs
- Decimal
+ System.Decimal
 #>
 function Vector2Prod
 {
@@ -38,7 +38,7 @@ function Vector2Prod
  .Synopsis
  Calculates the angle between two vectors
  .Outputs
- Double
+ System.Double
 #>
 function Vector2Angle
 {
@@ -160,8 +160,6 @@ function LineJunction
     # Set up two equations
     # SolveEquation
 
-
-}
 
 #>
 
