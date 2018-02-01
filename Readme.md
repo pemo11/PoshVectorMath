@@ -1,4 +1,4 @@
-A simple PowerShell module for doing simple arithmetic operations with Vectors and matrices
+A simple PowerShell module for doing simple arithmetic operations with Vectors and Matrices
 ===========================================================================================
 
 This is just a kind of "proof of concept" that these kind of operations are possible with PowerShell  
