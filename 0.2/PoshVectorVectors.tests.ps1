@@ -62,3 +62,9 @@ describe "calculating the vector length" {
         Point2LineDistance(@($vA, $vB, $vP)) | Should be 2
     }
  }
+
+ describe "calculating the angle between two vectors" {
+     $v1 = v([Math]::Sqrt(3), 1)
+     $v2 = v([Math]::Sqrt(3), 3)
+     Vector2Angle($v1, $v2) | Should be 30
+ }

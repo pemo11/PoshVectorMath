@@ -147,6 +147,28 @@ function AreaTriangle
 
 <#
  .Synopsis
+  Calculates the angle between two vectors with 2 components
+  .Inputs
+  [Vector[]]
+  .Outputs
+  Decimal
+#>
+function Vector2Angle
+{
+    [CmdletBinding()]
+    param([Vector[]]$Vectors)
+    [Vector]$v1 = $Vectors[0]
+    [Vector]$v2 = $Vectors[1]
+    $VectProd = $v1.Values[0] * $v2.Values[0] + $v1.Values[1] * $v2.Values[1]
+    $v1Len = vector2len($v1)
+    $v2Len = vector2len($v2)
+    $angleValue = $VectProd / ($v1Len * $v2Len)
+    [Decimal]$angle = [Math]::Acos($angleValue) * 180 / [Math]::PI 
+    return $angle
+}
+
+<#
+ .Synopsis
   Calculates the junction between two lines
 function LineJunction
 {
