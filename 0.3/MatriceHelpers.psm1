@@ -6,6 +6,8 @@
 # really helpful otherwise this module won't be able to use the class definitions
 using module .\VectorMatricesClasses.psm1
 
+Import-LocalizedData -BindingVariable Msg -FileName PoshVectorMathMessages.psd1
+
 <#
  .Synopsis
  Creates a vector based on dobule values

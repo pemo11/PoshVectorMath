@@ -127,7 +127,5 @@ describe "matrices inversion tests" {
         $ResultValue = 0.25
         Get-Det3x3 $MInvert | Should be $ResultValue
     }
-
-  
    
 }
