@@ -6,6 +6,7 @@
 using module .\VectorMatricesClasses.psm1
 using module .\MatriceHelpers.psm1
 using module .\VectorHelpers.psm1
+using module .\VectorGeometryHelpers.psm1
 
 describe "tests with triangles" {
 
@@ -26,16 +27,6 @@ describe "tests with triangles" {
 
 }
 
-describe "Calculating the distance between a point a line" {
-
-    it "Calculates the distance between a point a line" {
-        $vP = v(5,3)
-        $vA = v(1,1)
-        $vB = v(1,-1)
-        Point2LineDistance(@($vA, $vB, $vP)) | Should be 2
-    }
- }
-
  describe "Calculating the angle between two vectors" {
 
      it "Calculates an angle of 30 degree" {
@@ -53,14 +44,24 @@ describe "Calculating the distance between a point a line" {
      }
 
  }
-
+ 
  describe "more specialized tests with vectors" {
 
     it "calculates the distance between a point and a line" {
         $vA = v(1,1)
-        $vB = v(3,3)
-        $vP = v(2,3)
-        $pD = Point2LineDistance($vA, $vB, $vP)
+        $vD = v(1,-1)
+        $vP = v(5,3)
+        $ResultValue = Point2LineDistance($vA, $vD, $vP)
+        $CompareValue = [Math]::Round([Math]::Sqrt(18), 2)
+        [Math]::Round($ResultValue,2) | Should be $CompareValue
     }
 
+    it "Calculates the distance between a point a line" {
+        $vP = v(5,3)
+        $vD = v(1,-1)
+        $vA = v(1,1)
+        $ResultValue = Point2LineDistance($vA, $vD, $vP)
+        $CompareValue = [Math]::Round([Math]::Sqrt(18), 2)
+        [Math]::Round($ResultValue,2) | Should be $CompareValue
+    }
 }

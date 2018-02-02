@@ -29,13 +29,15 @@ function Vector2Len
  .Outputs
  System.Decimal
 #>
-function VectorLen
+function Get-VectorLen
 {
     param([Vector]$Vector)
     $SumValue = 0
     $Vector.Values.ForEach{$SumValue += [Math]::pow($_, 2)}
     return [Decimal][Math]::Sqrt($SumValue)
 }
+
+Set-Alias -Name VectorLen -Value Get-VectorLen
 
 <#
  .Synopsis
@@ -70,12 +72,14 @@ function Get-NormVector
  .Outputs
  System.Decimal
 #>
-function Vector2ScalarProd
+function Get-Vector2ScalarProd
 {
     param([Vector[]]$Vectors)
     # use decimal to avoid rounding errors that makes comparison difficult
     [Decimal]($Vectors[0].Values[0] * $Vectors[1].Values[0] + $Vectors[0].Values[1] * $Vectors[1].Values[1])
 }
+
+Set-Alias -Name Vector2ScalarProd -Value Get-Vector2ScalarProd
 
 <#
  .Synopsis
@@ -83,7 +87,7 @@ function Vector2ScalarProd
  .Outputs
  System.Decimal
 #>
-function VectorScalarProd
+function Get-VectorScalarProd
 {
     param([Vector[]]$Vectors)
     $ProdValue = 0
@@ -103,13 +107,16 @@ function VectorScalarProd
     return $ProdValue
 }
 
+Set-Alias -Name VectorScalarProd -Value Get-VectorScalarProd
+
+<#
 <#
  .Synopsis
  Calculates the angle between two vectors with two components
  .Outputs
  System.Double
 #>
-function Vector2Angle
+function Get-Vector2Angle
 {
     param([Vector[]]$Vectors)
     # An extra pair of parantheses is necessary for being able to use the return value of a function
@@ -117,21 +124,7 @@ function Vector2Angle
     $v = (Vector2ScalarProd($Vectors)) / ((Vector2Len($Vectors[0])) * (Vector2Len($Vectors[1]))) 
     [Math]::Acos($v) * 180 / [Math]::PI
 }
-
-<#
- .Synopsis
- Calculates the angle between two vectors with 2 components
- .Outputs
- System.Double
 #>
-function Vector2Angle
-{
-    param([Vector[]]$Vectors)
-    # An extra pair of parantheses is necessary for being able to use the return value of a function
-    # inside an expression (why, o why, Bruce;)
-    $v = (Vector2ScalarProd($Vectors)) / ((Vector2Len($Vectors[0])) * (Vector2Len($Vectors[1]))) 
-    [Math]::Acos($v) * 180 / [Math]::PI
-}
 
 <#
  .Synopsis
@@ -141,7 +134,7 @@ function Vector2Angle
   .Outputs
   Decimal
 #>
-function Vector2Angle
+function Get-Vector2Angle
 {
     [CmdletBinding()]
     param([Vector[]]$Vectors)
@@ -155,6 +148,8 @@ function Vector2Angle
     return $Angle
 }
 
+Set-Alias -Name Vector2Angle -Value Get-Vector2Angle
+
 <#
  .Synopsis
   Calculates the angle between two vectors with 3 components or more (?)
@@ -163,7 +158,7 @@ function Vector2Angle
   .Outputs
   Decimal
 #>
-function VectorAngle
+function Get-VectorAngle
 {
     [CmdletBinding()]
     param([Vector[]]$Vectors)
@@ -177,22 +172,6 @@ function VectorAngle
     return $Angle
 }
 
-<#
- .Synopsis
-  Calculates the junction between two lines
-function LineJunction
-{
-    param([Matrice[]]$LineMatrices)
-    $M1 = $LineMatrices[0]
-    $M2 = $LineMatrices[1]
-    $v1A = $M1.Vectors[0]
-    $v1B = $M1.Vectors[1]
-    $v2A = $M2.Vectors[0]
-    $v2B = $M2.Vectors[1]
-    # Set up two equations
-    # SolveEquation
-
-
-#>
+Set-Alias -Name VectorAngle -Value Get-VectorAngle
 
 Export-ModuleMember -Function * -Alias *

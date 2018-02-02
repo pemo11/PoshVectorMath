@@ -48,12 +48,32 @@ describe "Calculating the length of vectors with 3 components" {
     it "Calculates the norm vector of an vector" {
        $v = v(@(1, 2, 3))
        $vNormValues = Get-NormVector -Vector $v
-       # Sadly this seems to be necessary due to the fact that Get-NormVector should return
-       # a vector object but for some reasons unknown to me doesn't
+       # Sadly this seems to be necessary due to the fact that Get-NormVector should 
+       # return a vector object but for some reasons unknown to me it returns an Object[] instead
        $vNorm = v($vNormValues.Values)
        $vCompare = v(@(0.267, 0.535, 0.802))
        [Vector]::Compare($vNorm, $vCompare, 3) | Should be $true
     }
 
+}
+
+
+describe "Adding and subtracting vectors" {
+
+    it "adds one vector to another vector" {
+       $v1 = v(@(1, 2, 3))
+       $v2 = v(@(1, 2, 3))
+       $vResult = $v1.Add($v2)
+       $vCompare = v(2, 4, 6)
+       [Vector]::Compare($vResult, $vCompare) | Should be $true
+    }
+
+    it "subtract one vector from another vector" {
+        $v1 = v(@(1, 2, 3))
+        $v2 = v(@(1, 2, 3))
+        $vResult = $v1.Subtract($v2)
+        $vCompare = v(0, 0, 0)
+        [Vector]::Compare($vResult, $vCompare) | Should be $true
+     }
 }
 

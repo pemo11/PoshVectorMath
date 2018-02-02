@@ -39,6 +39,28 @@ class Vector
         }
         return $result
     }
+
+    # Adds another vector to this vector
+    [Vector]Add([Vector] $v)
+    {
+        $vValues = @()
+        for($i=0; $i -lt $v.Values.Count; $i++)
+        {
+            $vValues += $this.Values[$i] + $v.Values[$i]
+        }
+        return v($vValues)
+    }
+
+    # Substract another vector from this vector
+    [Vector]Subtract([Vector] $v)
+    {
+        $vValues = @()
+        for($i=0; $i -lt $v.Values.Count; $i++)
+        {
+            $vValues += $this.Values[$i] - $v.Values[$i]
+        }
+        return v($vValues)
+    }
     
     # Outputs the vector values without formating
     [string]ToString()
