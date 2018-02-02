@@ -51,6 +51,7 @@ describe "calculating the determinant of 4x4 matrices" {
         $v3 = v(-1, 6, 4, 1)
         $v4 = v(2, 4, 5, 1)
         $M = m($v1, $v2, $v3, $v4)
+        # same result here: http://www.arndt-bruenner.de/mathe/scripts/determinanten.htm
         $ResultValue = -238
         Get-Laplace4x4Det $M | Should be $ResultValue
     }
@@ -61,7 +62,19 @@ describe "calculating the determinant of 4x4 matrices" {
         $v3 = v(1, 2, 3, 4)
         $v4 = v(5, 6, 7, 8)
         $M = m($v1, $v2, $v3, $v4)
+        # same result here: http://www.arndt-bruenner.de/mathe/scripts/determinanten.htm
         $ResultValue = 0
+        Get-Laplace4x4Det $M | Should be $ResultValue
+    }
+
+    it "calculates the determinant of the third 4x4 matrice" {
+        $v1 = v(0, 1, 0, 1)
+        $v2 = v(1, 3, 0, 1)
+        $v3 = v(0, -1, 1, -3)
+        $v4 = v(1, 1, 0, 4)
+        $M = m($v1, $v2, $v3, $v4)
+        # same result here: http://www.arndt-bruenner.de/mathe/scripts/determinanten.htm
+        $ResultValue = -5
         Get-Laplace4x4Det $M | Should be $ResultValue
     }
 }
