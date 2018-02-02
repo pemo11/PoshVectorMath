@@ -39,6 +39,33 @@ function VectorLen
 
 <#
  .Synopsis
+ Gets the norm vector of a vector
+ .Inputs
+ Vector
+ .Outputs
+ Vector
+#>
+function Get-NormVector
+{
+    param([ValidateNotNull()][Parameter(Mandatory=$true)][Vector]$Vector)
+    $SumValue = 0
+    $VectorNeu = [Vector]::new($Vector.Values)
+    for($i=0; $i -lt $Vector.Values.Count;$i++)
+    {
+        $SumValue += [Math]::Pow($Vector.Values[$i], 2)
+    }
+    $SumValue
+    $NormValue = 1 / [Math]::Sqrt($SumValue)
+
+    for($i=0;$i -lt $Vector.Values.Count;$i++)
+    {
+        $VectorNeu.Values[$i] = $Vector.Values[$i] * $NormValue
+    }
+    return $VectorNeu
+}
+
+<#
+ .Synopsis
  Scalarprocukt of two Vectors with 2 components
  .Outputs
  System.Decimal

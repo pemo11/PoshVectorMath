@@ -19,6 +19,27 @@ class Vector
         $this.Values = $Values
     }
 
+    # Compares two vectors based on integers
+    static [bool]Compare([Vector]$v1, [Vector]$v2)
+    {
+        # compare with 0 digits after the decimal point
+        return [Vector]::Compare($v1, $v2, 0)
+    }
+
+    # Compares two vectors based on double values with rounding
+    static [bool]Compare([Vector]$v1, [Vector]$v2, [Int]$Precision)
+    {
+        [bool]$result = $true
+        for($i = 0;$i -lt $v1.Values.Count;$i++)
+        {
+            if ([Math]::Round($v1.Values[$i], $Precision) -ne [Math]::Round($v2.Values[$i], $Precision))
+            {
+                $result = $false
+            }
+        }
+        return $result
+    }
+    
     # Outputs the vector values without formating
     [string]ToString()
     {
@@ -34,7 +55,6 @@ class Vector
         $this.Values.ForEach{$OutVal += ("{0,8:n2}" -f $_)}
         return  $OutVal
     }
-
 }
 
 # Defines a matrice with n vectors that defines the columns of the matrice
