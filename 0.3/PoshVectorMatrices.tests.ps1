@@ -7,6 +7,23 @@ using module .\VectorMatricesClasses.psm1
 using module .\VectorHelpers.psm1
 using module .\MatriceHelpers.psm1
 
+describe "Calculating the determinate of 2x2 matrices" {
+
+    it "Calculates the determinant of a 2x2 matrice" {
+        $v1 = v(@(1,2))
+        $v2 = v(@(3,4))
+        $M = m(@($v1, $v2))
+        Get-Det2x2Matrice($M) | Should be -2
+    }
+
+    it "Calculates the determinant of a 2x2 matrice" {
+        $v1 = v(0, 3)
+        $v2 = v(2,-1)
+        $M = m($v1, $v2)
+        Get-Det2x2Matrice($M) | Should be -6
+    }
+}
+
 describe "calculating the product of two matrices" {
 
     it "calculates the product of a 2x3 and a 3x2 matrice" {

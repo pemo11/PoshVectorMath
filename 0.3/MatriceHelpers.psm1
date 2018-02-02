@@ -10,7 +10,7 @@ Import-LocalizedData -BindingVariable Msg -FileName PoshVectorMathMessages.psd1
 
 <#
  .Synopsis
- Creates a vector based on dobule values
+ Creates a vector based on double values
  .Outputs
  Vector
 #>
@@ -22,7 +22,7 @@ function v([Decimal[]]$Values)
 
 <#
  .Synopsis
- Creates a matrice with Vectors
+ Creates a matrice with vectors
  .Outputs
  Matrice
 #>
@@ -266,7 +266,6 @@ function Mul-Matrice
     # return the resulting matrice
     return $MProduct
 }
-
 
 <#
 .SYNOPSIS
